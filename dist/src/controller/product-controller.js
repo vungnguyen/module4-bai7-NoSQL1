@@ -4,10 +4,26 @@ const product_1 = require("../model/product");
 class ProductController {
     constructor() {
         this.showListBook = async (req, res) => {
-            let product = await product_1.Product.find();
-            res.render('product/list', {
-                products: product
-            });
+            try {
+                let limit;
+                let offset;
+                if (!req.query.limit || !req.query.limit) {
+                    limit = 3;
+                    offset = 0;
+                }
+                else {
+                    limit = parseInt(req.query.limit);
+                    offset = parseInt(req.query.offset);
+                }
+                const product = await product_1.Product.find().limit(limit).skip(limit * offset);
+                ;
+                res.render('product/list', {
+                    products: product
+                });
+            }
+            catch (e) {
+                res.render('error');
+            }
         };
         this.showCreateBook = async (req, res) => {
             res.render('product/create');

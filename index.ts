@@ -10,7 +10,7 @@ app.set('views','./src/views/');
 mongoose.connect('mongodb://localhost:27017/product').then(()=>{
     console.log('connect success');
 }).catch(()=>{
-    console.log('connect error');
+    console.log('connect errors');
 })
 app.use(bodyParser.json());
 app.use('', router);

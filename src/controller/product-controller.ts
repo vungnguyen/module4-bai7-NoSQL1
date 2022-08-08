@@ -3,10 +3,25 @@ import {Product} from "../model/product";
 
  class ProductController{
     showListBook = async (req: Request, res: Response) =>{
-        let product = await  Product.find();
-        res.render('product/list',{
-            products: product
-        })
+        try {
+            let limit: number ;
+            let offset: number;
+            //không có tham số thì set limit =3;offset =0;
+            if(!req.query.limit || !req.query.offset){
+                limit = 3;
+                offset = 0;
+            }else{
+                limit = parseInt(req.query.limit as string);
+                offset = parseInt(req.query.offset as string);
+            }
+            let product = await  Product.find().limit(limit).skip(limit*offset);
+            res.render('product/list',{
+                products: product
+            })
+        }catch (e) {
+          res.render('error')
+        }
+
     }
     showCreateBook = async (req: Request, res: Response) =>{
         res.render('product/create')
