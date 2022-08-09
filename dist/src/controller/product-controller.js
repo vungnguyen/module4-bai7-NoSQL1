@@ -7,7 +7,7 @@ class ProductController {
             try {
                 let limit;
                 let offset;
-                if (!req.query.limit || !req.query.limit) {
+                if (!req.query.limit || !req.query.offset) {
                     limit = 3;
                     offset = 0;
                 }
@@ -15,8 +15,7 @@ class ProductController {
                     limit = parseInt(req.query.limit);
                     offset = parseInt(req.query.offset);
                 }
-                const product = await product_1.Product.find().limit(limit).skip(limit * offset);
-                ;
+                let product = await product_1.Product.find().limit(limit).skip(limit * offset);
                 res.render('product/list', {
                     products: product
                 });
